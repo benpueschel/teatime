@@ -126,7 +126,10 @@ impl EditRepoBuilder {
     pub async fn send(&self, client: &crate::Client) -> Result<Repository> {
         let owner = &self.owner;
         let repo = &self.repo;
-        let req = client.patch(format!("repos/{owner}/{repo}")).build()?;
+        let req = client
+            .patch(format!("repos/{owner}/{repo}"))
+            .json(&self)
+            .build()?;
         let res = client.make_request(req).await?;
         client.parse_response(res).await
     }
