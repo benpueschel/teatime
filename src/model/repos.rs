@@ -58,6 +58,8 @@ pub struct Repository {
     pub default_merge_style: String,
     pub description: String,
     pub empty: bool,
+    pub external_tracker: ExternalTracker,
+    pub external_wiki: ExternalWiki,
     pub fork: bool,
     pub forks_count: i64,
     pub full_name: String,
@@ -190,4 +192,26 @@ pub struct Branch {
     pub status_check_contexts: Vec<String>,
     pub user_can_merge: bool,
     pub user_can_push: bool,
+}
+
+/// ExternalTracker represents settings for external tracker
+#[derive(Default, Debug, Clone, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
+#[serde(default)]
+pub struct ExternalTracker {
+    /// External Issue Tracker URL Format. Use the placeholders {user}, {repo} and {index} for the username, repository name and issue index.
+    pub external_tracker_format: String,
+    /// External Issue Tracker issue regular expression
+    pub external_tracker_regexp_pattern: String,
+    /// External Issue Tracker Number Format, either numeric, alphanumeric, or regexp
+    pub external_tracker_style: String,
+    /// URL of external issue tracker.
+    pub external_tracker_url: String,
+}
+
+/// ExternalWiki represents setting for external wiki
+#[derive(Default, Debug, Clone, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
+#[serde(default)]
+pub struct ExternalWiki {
+    /// URL of external wiki.
+    pub external_wiki_url: String,
 }
