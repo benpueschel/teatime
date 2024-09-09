@@ -1,7 +1,10 @@
 use build_it::Builder;
 use serde::Serialize;
 
-use crate::{error::Result, model::repos::Repository};
+use crate::{
+    error::Result,
+    model::repos::{ExternalTracker, ExternalWiki, Repository},
+};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Builder)]
 #[build_it(into)]
@@ -44,6 +47,10 @@ pub struct EditRepoBuilder {
     description: Option<String>,
     /// Enable prune - remove obsolete remote-tracking references when mirroring
     enable_prune: Option<bool>,
+    /// ExternalTracker represents settings for external tracker
+    external_tracker: Option<ExternalTracker>,
+    /// ExternalWiki represents setting for external wiki
+    external_wiki: Option<ExternalWiki>,
     /// Either `true` to enable actions unit, or `false` to disable them.
     has_actions: Option<bool>,
     /// Either `true` to enable issues for this repository or `false` to disable them.
@@ -97,6 +104,8 @@ impl EditRepoBuilder {
             default_merge_style: None,
             description: None,
             enable_prune: None,
+            external_tracker: None,
+            external_wiki: None,
             has_actions: None,
             has_issues: None,
             has_packages: None,
