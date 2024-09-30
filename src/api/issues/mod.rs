@@ -1,3 +1,4 @@
+pub mod comments;
 pub mod create;
 pub mod delete;
 pub mod edit;
@@ -141,5 +142,27 @@ impl Issues {
     /// This will get all open issues in the repository "owner/repo".
     pub fn list(&self) -> list::ListIssuesBuilder {
         list::ListIssuesBuilder::new(&self.owner, &self.repo)
+    }
+
+    /// Miscellaneous methods for comments on issues.
+    ///
+    /// # Example
+    /// ```
+    /// # use gitea_sdk::{Client, Auth};
+    /// # async fn list_comments() {
+    /// let client = Client::new(
+    ///     "https://gitea.example.com",
+    ///     Auth::Token("your-token")
+    /// );
+    /// let comments = client
+    ///     .issues("owner", "repo")
+    ///     .comments();
+    /// }
+    /// ```
+    pub fn comments(&self) -> comments::Comments {
+        comments::Comments {
+            owner: self.owner.clone(),
+            repo: self.repo.clone(),
+        }
     }
 }

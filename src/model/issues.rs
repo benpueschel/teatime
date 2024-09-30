@@ -82,6 +82,21 @@ pub struct Issue {
 }
 
 #[derive(Default, Debug, Clone, Serialize, Deserialize)]
+pub struct Comment {
+    pub assets: Vec<Attachment>,
+    pub body: String,
+    pub created_at: String,
+    pub html_url: String,
+    pub id: i64,
+    pub issue_url: String,
+    pub original_author: String,
+    pub original_author_id: i64,
+    pub pull_request_url: String,
+    pub updated_at: String,
+    pub user: User,
+}
+
+#[derive(Default, Debug, Clone, Serialize, Deserialize)]
 pub enum StateType {
     #[default]
     #[serde(rename = "open")]

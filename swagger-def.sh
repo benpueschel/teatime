@@ -32,5 +32,4 @@ for name in $names; do
 		echo "$desc"
 	fi
 	echo "$name: Option<$type>,"
-	echo ""
 done

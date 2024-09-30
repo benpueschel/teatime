@@ -194,6 +194,18 @@ pub async fn test(base_url: &str) -> Result<()> {
     println!("test_edit_issue");
     test_edit_issue(base_url, &token).await?;
 
+    println!("test_create_comment");
+    test_create_comment(base_url, &token).await?;
+
+    println!("test_edit_comment");
+    test_edit_comment(base_url, &token).await?;
+
+    println!("test_list_issue_comments");
+    test_list_issue_comments(base_url, &token).await?;
+
+    println!("test_list_repo_comments");
+    test_list_repo_comments(base_url, &token).await?;
+
     println!("test_delete_issue");
     test_delete_issue(base_url, &token).await?;
 
@@ -654,6 +666,62 @@ pub async fn test_edit_issue(base_url: &str, token: &str) -> Result<()> {
         .send(&client)
         .await?;
     assert_eq!(issue.title, "my new title");
+    Ok(())
+}
+
+pub async fn test_create_comment(base_url: &str, token: &str) -> Result<()> {
+    let client = Client::new(base_url, Auth::Token(token));
+    let comment = client
+        .issues(GITEA_USER, GITEA_REPO)
+        .comments()
+        .create(1, "test comment")
+        .send(&client)
+        .await?;
+    assert_eq!(comment.body, "test comment");
+    Ok(())
+}
+
+pub async fn test_edit_comment(base_url: &str, token: &str) -> Result<()> {
+    let client = Client::new(base_url, Auth::Token(token));
+    let comment = client
+        .issues(GITEA_USER, GITEA_REPO)
+        .comments()
+        .edit(1, "totally different test comment")
+        .send(&client)
+        .await?;
+    if let Some(comment) = comment {
+        assert_eq!(comment.body, "totally different test comment");
+    } else {
+        let comment = client
+            .issues(GITEA_USER, GITEA_REPO)
+            .comments()
+            .send(&client)
+            .await?;
+    }
+    Ok(())
+}
+
+pub async fn test_list_issue_comments(base_url: &str, token: &str) -> Result<()> {
+    let client = Client::new(base_url, Auth::Token(token));
+    let comments = client
+        .issues(GITEA_USER, GITEA_REPO)
+        .comments()
+        .list(1)
+        .send(&client)
+        .await?;
+    assert_eq!(comments.len(), 1);
+    Ok(())
+}
+
+pub async fn test_list_repo_comments(base_url: &str, token: &str) -> Result<()> {
+    let client = Client::new(base_url, Auth::Token(token));
+    let comments = client
+        .issues(GITEA_USER, GITEA_REPO)
+        .comments()
+        .list_all()
+        .send(&client)
+        .await?;
+    assert_eq!(comments.len(), 1);
     Ok(())
 }
 
