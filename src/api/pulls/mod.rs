@@ -3,6 +3,7 @@ pub mod edit;
 pub mod get;
 pub mod list;
 pub mod pinned;
+pub mod reviews;
 
 pub struct Pulls {
     pub(crate) owner: String,
@@ -163,5 +164,9 @@ impl Pulls {
     /// This will get all pinned pull requests in the repository "owner/repo".
     pub fn pinned(&self) -> pinned::PinnedPullRequestsBuilder {
         pinned::PinnedPullRequestsBuilder::new(&self.owner, &self.repo)
+    }
+
+    pub fn reviews(&self) -> reviews::Reviews {
+        reviews::Reviews::new(&self.owner, &self.repo)
     }
 }

@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 /// Represents a Gitea organization.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Organization {
     pub id: i64,
     pub name: String,
