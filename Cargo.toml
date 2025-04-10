@@ -21,4 +21,4 @@ serde_json = "1.0.120"
 
 [dev-dependencies]
 testcontainers = "0.20.1"
-tokio = { version = "1.38.1", features = ["macros"] }
+tokio = { version = "1.43.1", features = ["macros"] }
