@@ -1,6 +1,3 @@
-use build_it::Builder;
-use serde::Serialize;
-
 use crate::{error::Result, model::issues::Comment, Client};
 
 #[derive(Debug, Clone)]

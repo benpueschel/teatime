@@ -6,6 +6,7 @@ use reqwest::StatusCode;
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum TeatimeErrorKind {
     HttpError,
+    ParseError,
     SerializationError,
     Other,
 }
@@ -14,6 +15,7 @@ impl Display for TeatimeErrorKind {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             TeatimeErrorKind::HttpError => write!(f, "HTTP error"),
+            TeatimeErrorKind::ParseError => write!(f, "Parsing error"),
             TeatimeErrorKind::SerializationError => write!(f, "Serialization error"),
             TeatimeErrorKind::Other => write!(f, "error"),
         }
@@ -52,6 +54,16 @@ impl From<reqwest::Error> for TeatimeError {
             message: format!("{}", err),
             status_code: err.status().unwrap_or(StatusCode::BAD_REQUEST),
             kind,
+        }
+    }
+}
+
+impl From<serde_json::Error> for TeatimeError {
+    fn from(err: serde_json::Error) -> Self {
+        TeatimeError {
+            message: format!("{}", err),
+            status_code: StatusCode::BAD_REQUEST,
+            kind: TeatimeErrorKind::ParseError,
         }
     }
 }

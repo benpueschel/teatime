@@ -215,3 +215,35 @@ pub struct ExternalWiki {
     /// URL of external wiki.
     pub external_wiki_url: String,
 }
+
+/// Links contains related resource URLs for a file entry.
+#[derive(Default, Debug, Clone, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
+pub struct Links {
+    pub git: String,
+    pub html: String,
+    #[serde(rename = "self")]
+    pub self_link: String,
+}
+
+/// Entry represents metadata and contents of a file
+#[derive(Default, Debug, Clone, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
+#[serde(default)]
+pub struct Entry {
+    #[serde(rename = "_links")]
+    pub links: Links,
+    pub content: Option<String>,
+    pub download_url: Option<String>,
+    pub encoding: Option<String>,
+    pub git_url: String,
+    pub html_url: String,
+    pub last_commit_sha: String,
+    pub name: String,
+    pub path: Option<String>,
+    pub sha: String,
+    pub size: u64,
+    pub submodule_git_url: Option<String>,
+    pub target: Option<String>,
+    #[serde(rename = "type")]
+    pub r#type: String,
+    pub url: String,
+}
