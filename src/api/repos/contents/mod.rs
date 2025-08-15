@@ -48,6 +48,7 @@ impl Contents {
     ///
     /// # Example
     /// ```
+    /// # use base64::{Engine, prelude::BASE64_STANDARD};
     /// # use gitea_sdk::{Client, Auth};
     /// # async fn create_new_file() {
     /// let client = Client::new(
@@ -81,6 +82,7 @@ impl Contents {
     ///
     /// # Example
     /// ```
+    /// # use base64::{Engine, prelude::BASE64_STANDARD};
     /// # use gitea_sdk::{Client, Auth};
     /// # async fn update_file() {
     ///
@@ -132,6 +134,7 @@ impl Contents {
     ///
     /// # Example
     /// ```
+    /// # use base64::{Engine, prelude::BASE64_STANDARD};
     /// # use gitea_sdk::{Client, Auth};
     /// # async fn delete_file() {
     ///

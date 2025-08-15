@@ -287,9 +287,12 @@ pub struct Entry {
 #[serde(default)]
 pub struct EntryVerification {
     payload: String,
+    /// Why verification failed
     reason: String,
     signature: String,
+    /// Only set if verifed is true
     signer: Option<PayloadUser>,
+    /// Whether has been verified or not
     verified: bool,
 }
 
@@ -297,7 +300,10 @@ pub struct EntryVerification {
 #[derive(Default, Debug, Clone, Serialize, Deserialize)]
 #[serde(default)]
 pub struct EntryMutation {
+    /// Entry commit
     commit: Commit,
+    /// File content
     content: Option<Entry>,
+    /// Mutation verification
     verification: EntryVerification,
 }
