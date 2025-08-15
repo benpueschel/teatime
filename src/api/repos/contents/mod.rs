@@ -84,6 +84,11 @@ impl Contents {
     /// # use gitea_sdk::{Client, Auth};
     /// # async fn update_file() {
     ///
+    /// let client = Client::new(
+    ///     "https://gitea.example.com",
+    ///     Auth::Token("your-token")
+    /// );
+    ///
     /// let entries = client
     ///     .repos("repo-owner", "repo-name")
     ///     .contents()
@@ -129,6 +134,11 @@ impl Contents {
     /// ```
     /// # use gitea_sdk::{Client, Auth};
     /// # async fn delete_file() {
+    ///
+    /// let client = Client::new(
+    ///     "https://gitea.example.com",
+    ///     Auth::Token("your-token")
+    /// );
     ///
     /// let entries = client
     ///     .repos("repo-owner", "repo-name")
