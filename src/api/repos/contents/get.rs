@@ -7,18 +7,19 @@ use crate::{model::repos::Entry, Result};
 #[derive(Debug, Serialize, Deserialize, Builder)]
 #[build_it(into)]
 pub struct GetContentsRepoBuilder {
+    /// The owner of the repository.
     #[skip]
     #[serde(skip)]
     owner: String,
-
+    /// The name of the repository.
     #[skip]
     #[serde(skip)]
     repo: String,
-
+    /// The entry filepath can be a directory or file.
     #[skip]
     #[serde(skip)]
     filepath: String,
-
+    /// The name of the commit/branch/tag. Default the repository’s default branch (usually master)
     #[serde(skip_serializing_if = "Option::is_none")]
     #[build_it(rename = "refs")]
     r#ref: Option<String>,
