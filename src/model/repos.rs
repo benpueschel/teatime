@@ -216,9 +216,9 @@ pub struct ExternalWiki {
     pub external_wiki_url: String,
 }
 
-/// Links contains related resource URLs for a file entry.
+/// FileLinks contains related resource URLs for a file entry.
 #[derive(Default, Debug, Clone, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
-pub struct Links {
+pub struct FileLinks {
     /// Resource Git URL
     pub git: String,
     /// Resource HTML URL
@@ -234,7 +234,7 @@ pub struct Links {
 pub struct Entry {
     /// Entry links
     #[serde(rename = "_links")]
-    pub links: Links,
+    pub links: FileLinks,
     /// Entry content
     pub content: Option<String>,
     /// Entry download URL
