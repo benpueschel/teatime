@@ -181,6 +181,14 @@ pub struct PayloadCommit {
     // TODO: pub verification: PayloadCommitVerification,
 }
 
+/// CommitDateOptions store dates for GIT_AUTHOR_DATE and GIT_COMMITTER_DATE
+#[derive(Default, Debug, Clone, Serialize, Deserialize)]
+#[serde(default)]
+pub struct CommitDateOptions {
+    author: String,
+    commiter: String,
+}
+
 #[derive(Default, Debug, Clone, Serialize, Deserialize)]
 pub struct Branch {
     pub commit: PayloadCommit,
@@ -228,6 +236,14 @@ pub struct FileLinks {
     pub self_link: String,
 }
 
+/// Identity for a person's identity like an author or committer
+#[derive(Default, Debug, Clone, Serialize, Deserialize)]
+#[serde(default)]
+pub struct Identity {
+    email: String,
+    name: String,
+}
+
 /// Entry represents metadata and contents of a file
 #[derive(Default, Debug, Clone, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
 #[serde(default)]
@@ -264,4 +280,30 @@ pub struct Entry {
     pub r#type: String,
     /// Entry URL
     pub url: String,
+}
+
+/// EntryVerification represents the verification of a given Entry change on the repository
+#[derive(Default, Debug, Clone, Serialize, Deserialize)]
+#[serde(default)]
+pub struct EntryVerification {
+    payload: String,
+    /// Why verification failed
+    reason: String,
+    signature: String,
+    /// Only set if verifed is true
+    signer: Option<PayloadUser>,
+    /// Whether has been verified or not
+    verified: bool,
+}
+
+/// EntryMutation represents mutation of an entry, it can be a creation, an update or a deletion
+#[derive(Default, Debug, Clone, Serialize, Deserialize)]
+#[serde(default)]
+pub struct EntryMutation {
+    /// Entry commit
+    commit: Commit,
+    /// File content
+    content: Option<Entry>,
+    /// Mutation verification
+    verification: EntryVerification,
 }
