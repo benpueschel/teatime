@@ -4,6 +4,7 @@ pub mod contents;
 pub mod delete;
 pub mod edit;
 pub mod forks;
+pub mod generate;
 pub mod get;
 
 /// The [Repos] struct provides methods for interacting with repositories.
@@ -13,6 +14,31 @@ pub struct Repos {
 }
 
 impl Repos {
+    /// Create a repository using a template
+    ///
+    /// # Example
+    /// ```rust
+    /// # use gitea_sdk::{Client, Auth};
+    /// # async fn generate_repo() {
+    /// let client = Client::new(
+    ///    "https://gitea.example.com",
+    ///    Auth::Token("your-token")
+    /// );
+    /// client
+    ///    .repos("owner", "repo") // New repository to create
+    ///    .generate("template-owner", "template-repo") // Repository to use as template
+    ///    .send(&client)
+    ///    .await
+    ///    .unwrap();
+    /// # }
+    /// ```
+    pub fn generate(
+        &self,
+        template_owner: impl ToString,
+        template_repo: impl ToString,
+    ) -> generate::GenerateRepoBuilder {
+        generate::GenerateRepoBuilder::new(&self.owner, &self.repo, template_owner, template_repo)
+    }
     /// Deletes a repository by its owner and name.
     /// WARNING: This is irreversible and will delete all data associated with the repository.
     /// This action cannot be undone. When invoking this method, you will not be asked for
