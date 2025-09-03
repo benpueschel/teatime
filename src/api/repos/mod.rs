@@ -1,5 +1,6 @@
 pub mod branches;
 pub mod commits;
+pub mod contents;
 pub mod delete;
 pub mod edit;
 pub mod forks;
@@ -306,5 +307,12 @@ impl Repos {
     /// This will delete the branch "branch-to-delete" in the repository "owner/repo".
     pub fn delete_branch(&self, branch: impl ToString) -> branches::DeleteBranchBuilder {
         branches::DeleteBranchBuilder::new(&self.owner, &self.repo, branch)
+    }
+
+    pub fn contents(&self) -> contents::Contents {
+        contents::Contents {
+            owner: self.owner.clone(),
+            repo: self.repo.clone(),
+        }
     }
 }
