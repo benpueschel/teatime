@@ -38,6 +38,8 @@ pub struct PullRequest {
     pub pin_order: i64,
     pub requested_reviewers: Option<Vec<Option<User>>>,
     /// Number of review comments made on the diff of a PR review (not including comments on commits or issues in a PR)
+    // Gitea has this marked as `omitempty` so it's omitted when zero.
+    #[serde(default)]
     pub review_comments: i64,
     pub state: StateType,
     pub title: String,
