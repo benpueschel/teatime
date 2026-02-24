@@ -8,15 +8,18 @@ use super::{
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PullRequest {
+    #[serde(default)]
     pub additions: i64,
     pub allow_maintainer_edit: bool,
     pub assignees: Option<Vec<User>>,
     pub base: PrBranchInfo,
     pub body: String,
+    #[serde(default)]
     pub changed_files: i64,
     pub closed_at: Option<String>,
     pub comments: i64,
     pub created_at: String,
+    #[serde(default)]
     pub deletions: i64,
     pub diff_url: String,
     pub draft: bool,
