@@ -126,6 +126,10 @@ impl Client {
 
         let cli = reqwest::ClientBuilder::new()
             .default_headers(headers)
+            // reqwest 0.13 changed its default TLS backend from native-tls to rustls. Keep using
+            // the platform TLS implementation so upgrading reqwest does not change how existing
+            // Gitea installations and their certificates are handled.
+            .tls_backend_native()
             .user_agent(format!(
                 "{}/{}",
                 env!("CARGO_PKG_NAME"),

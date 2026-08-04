@@ -1,9 +1,12 @@
-use std::env;
+use std::{
+    env,
+    io::{self, Write},
+};
 
 use gitea_sdk::{error::Result, Auth, Client};
 use reqwest::Method;
 use testcontainers::{
-    core::{wait::HttpWaitStrategy, IntoContainerPort, WaitFor},
+    core::{logs::LogFrame, wait::HttpWaitStrategy, IntoContainerPort, WaitFor},
     runners::AsyncRunner,
     GenericImage, ImageExt,
 };
@@ -19,11 +22,14 @@ static GITEA_REPO_DESCRIPTION: &str = "a test repo";
 
 #[tokio::test]
 pub async fn test_client() {
+    eprintln!("[integration] creating Gitea container");
+
     let wait_strategy = HttpWaitStrategy::new("/user/login")
         .with_port(3000.tcp())
         .with_method(Method::GET)
         .with_response_matcher(move |response| response.status().is_success());
 
+    eprintln!("[integration] starting Gitea and waiting for /user/login");
     let container = GenericImage::new("teatime/test-image", "latest")
         .with_exposed_port(3000.tcp())
         .with_wait_for(WaitFor::http(wait_strategy))
@@ -32,6 +38,7 @@ pub async fn test_client() {
         .start()
         .await
         .expect("Failed to start Gitea container");
+    eprintln!("[integration] Gitea container is ready");
 
     let gitea_port = container
         .get_host_port_ipv4(3000)
@@ -43,16 +50,20 @@ pub async fn test_client() {
         .expect("Failed to get Gitea host");
 
     let gitea_url = format!("http://{}:{}", gitea_host, gitea_port);
+    eprintln!("[integration] running API tests against {gitea_url}");
     let result = test(&gitea_url).await;
 
     // We always want to clean up the token, even if the tests fail. So we run this test outside of
     // the main test block.
+    eprintln!("[integration] cleaning up the test token");
     let delete = test_delete_token(&gitea_url, "gritty-token").await;
 
+    eprintln!("[integration] stopping Gitea container");
     container
         .stop()
         .await
         .expect("Failed to stop Gitea container");
+    eprintln!("[integration] Gitea container stopped");
 
     let mut panic = false;
     if let Err(e) = result {
