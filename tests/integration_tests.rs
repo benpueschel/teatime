@@ -26,7 +26,7 @@ pub async fn test_client() {
 
     let container = GenericImage::new("teatime/test-image", "latest")
         .with_exposed_port(3000.tcp())
-        .with_wait_for(WaitFor::Http(wait_strategy))
+        .with_wait_for(WaitFor::http(wait_strategy))
         .with_env_var("USER_UID", env::var("UID").unwrap_or("1000".to_string()))
         .with_env_var("USER_GID", env::var("GID").unwrap_or("1000".to_string()))
         .start()

@@ -13,12 +13,12 @@ categories = ["api-bindings"]
 [lib]
 
 [dependencies]
-base64 = "0.22.1"
-build-it = "0.1.0"
-reqwest = { version = "0.12.5", features = ["json"] }
-serde = { version = "1.0.203", features = ["derive"] }
-serde_json = "1.0.120"
+base64 = "0.23.1"
+build-it = "0.1.5"
+reqwest = { version = "0.13.4", features = ["json", "query"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.151"
 
 [dev-dependencies]
-testcontainers = "0.20.1"
-tokio = { version = "1.44.2", features = ["macros"] }
+testcontainers = { version = "0.27.3", features = ["http_wait"] }
+tokio = { version = "1.53.1", features = ["macros"] }
